@@ -60,7 +60,6 @@ YellowJacketEscape/
    ```
 2. **Open in Unity**:
    - Open Unity Hub and select `YellowJacketEscape`.
-   - Ensure you have the **Universal 2D Template** installed.
 3. **Run the Game**:
    - Click `Play` in Unity’s Editor to start testing.
 
