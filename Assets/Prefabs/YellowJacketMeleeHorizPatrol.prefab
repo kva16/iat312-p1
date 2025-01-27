@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 6097069905364055089}
   - component: {fileID: 1442146420089511105}
   - component: {fileID: 4963680243120616174}
+  - component: {fileID: -1290079568918410704}
   m_Layer: 0
-  m_Name: YellowJacketMelee
+  m_Name: YellowJacketMeleeHorizPatrol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f977b6f1d851404699bbe2f5be37a9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 5
   chaseRange: 5
   attackRange: 1
 --- !u!58 &1442146420089511105
@@ -174,6 +175,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCooldown: 1
+--- !u!114 &-1290079568918410704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877034684622091169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69412f9d5b39aa740a45bf21a8299f9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
+  patrolDistance: 5
 --- !u!1 &2016676933444643297
 GameObject:
   m_ObjectHideFlags: 0
