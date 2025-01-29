@@ -1,41 +1,23 @@
 using UnityEngine;
 
-public class RangedAttack : MonoBehaviour, IEnemyAttack
+public class RangedAttack : EnemyAI
 {
     public GameObject projectilePrefab;
     public Transform firePoint;
     public float attackCooldown = 2f;
     private float lastAttackTime = 0f;
-    private Transform player;
-    public float attackRange = 5f;
 
-    void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player")?.transform;
-        if (player == null)
-        {
-            Debug.LogError("Player not found! Make sure the Player GameObject has the 'Player' tag.");
-        }
-    }
-
-    void Update()
-    {
-        if (player == null) return;
-
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        
-        // If player is within range, attack
-        if (distanceToPlayer <= attackRange)
-        {
-            Attack();
-        }
-    }
-
-    public void Attack()
+    public override void Attack()
     {
         if (Time.time - lastAttackTime > attackCooldown)
         {
             Debug.Log(gameObject.name + " is shooting at the player!");
+
+            if (firePoint == null || projectilePrefab == null)
+            {
+                Debug.LogError("FirePoint or ProjectilePrefab not assigned in RangedAttack!");
+                return;
+            }
 
             // Calculate direction to the player
             Vector2 direction = (player.position - firePoint.position).normalized;

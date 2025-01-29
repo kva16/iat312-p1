@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 0; // Ensure gravity is disabled for top-down movement
     }
 
     void Update()
@@ -19,8 +20,14 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void FixedUpdate()
+{
+    if (moveInput.magnitude > 0) // Only rotate if moving
     {
-        // Move player using physics-based movement (respects colliders)
-        rb.MovePosition(rb.position + moveInput * moveSpeed * Time.fixedDeltaTime);
+        float angle = Mathf.Atan2(moveInput.y, moveInput.x) * Mathf.Rad2Deg - 90f;
+        rb.rotation = angle; // Rotate player to face movement direction
     }
+
+    rb.MovePosition(rb.position + moveInput * moveSpeed * Time.fixedDeltaTime);
+}
+
 }
