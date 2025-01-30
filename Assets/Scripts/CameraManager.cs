@@ -4,16 +4,21 @@ using System.Collections;
 public class CameraManager : MonoBehaviour
 {
     public Transform[] cameraPositions; // Assign preset positions in Inspector
-    public float transitionSpeed = 1.5f; // Adjust to control transition speed
+    public float[] zoomLevels; // Corresponding zoom levels for each zone
+    public float transitionSpeed = 1.5f; // Adjust transition speed
+    public float zoomSpeed = 1f; // Adjust zoom speed
 
-    private Transform targetPosition; // The current camera target
+    private Camera mainCamera;
 
     void Start()
     {
+        mainCamera = Camera.main;
+
         if (cameraPositions.Length > 0)
         {
-            targetPosition = cameraPositions[0]; // Start at Zone 1
-            transform.position = targetPosition.position; // Set initial position instantly
+            // Start at the first zone's camera position
+            mainCamera.transform.position = cameraPositions[0].position;
+            mainCamera.orthographicSize = zoomLevels[0]; 
         }
     }
 
@@ -21,23 +26,25 @@ public class CameraManager : MonoBehaviour
     {
         if (zoneIndex >= 0 && zoneIndex < cameraPositions.Length)
         {
-            targetPosition = cameraPositions[zoneIndex];
-            StartCoroutine(SmoothCameraTransition(targetPosition.position));
+            StartCoroutine(SmoothCameraTransition(cameraPositions[zoneIndex].position, zoomLevels[zoneIndex]));
         }
     }
 
-    IEnumerator SmoothCameraTransition(Vector3 newPosition)
+    private IEnumerator SmoothCameraTransition(Vector3 newPosition, float targetZoom)
     {
         float elapsedTime = 0f;
-        Vector3 startPos = transform.position;
+        Vector3 startPos = mainCamera.transform.position;
+        float startZoom = mainCamera.orthographicSize;
 
         while (elapsedTime < transitionSpeed)
         {
-            transform.position = Vector3.Lerp(startPos, newPosition, elapsedTime / transitionSpeed);
+            mainCamera.transform.position = Vector3.Lerp(startPos, newPosition, elapsedTime / transitionSpeed);
+            mainCamera.orthographicSize = Mathf.Lerp(startZoom, targetZoom, elapsedTime / zoomSpeed);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        transform.position = newPosition; // Ensure final position is accurate
+        mainCamera.transform.position = newPosition;
+        mainCamera.orthographicSize = targetZoom;
     }
 }
